@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #003b7e; }
+  input { font: inherit; }
+  button { font: inherit; cursor: pointer; }
+  @keyframes tg-land { from { opacity: 0; transform: translate(-50%, -50%) scale(0.86); } }
+  @keyframes tg-flash {
+    0% { box-shadow: 0 0 0 0 rgba(0,83,176,0.5), 0 0 0 0 rgba(0,83,176,0.9); }
+    70% { box-shadow: 0 0 0 22px rgba(0,83,176,0), 0 0 0 1.5px rgba(0,83,176,0.9); }
+    100% { box-shadow: 0 0 0 22px rgba(0,83,176,0), 0 0 0 1.5px rgba(0,83,176,0); }
+  }
+  @keyframes tg-fade { from { opacity: 0; transform: translateY(6px); } }
+</style>
+</helmet>
+<div style="position:fixed;inset:0;display:flex;flex-direction:column;background:{{ bg }};color:{{ ink }};font-family:'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden">
+
+  <nav style="flex:none;display:flex;flex-wrap:wrap;align-items:stretch;gap:0;min-height:52px;padding:0 16px;background:#fff;border-bottom:1px solid #dfe3ea">
+    <a href="{{ hrefTop }}" style="display:flex;align-items:center;gap:10px;padding:0 18px 0 0;font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;letter-spacing:0.06em;color:#0053b0">翻訳繋ぎゲーム</a>
+    <div style="display:flex;flex-wrap:wrap;align-items:stretch">
+      <a href="{{ hrefTop }}" style="display:flex;align-items:center;padding:0 14px;height:100%;font-size:13px;color:#23272e" style-hover="color:#0053b0">トップ</a>
+      <a href="{{ hrefWorkspace }}" style="display:flex;align-items:center;padding:0 14px;height:100%;font-size:13px;font-weight:500;color:#0053b0;border-bottom:3px solid #0053b0">作業空間</a>
+      <a href="{{ hrefStudent }}" style="display:flex;align-items:center;padding:0 14px;height:100%;font-size:13px;color:#23272e" style-hover="color:#0053b0">あそびかた</a>
+      <a href="{{ hrefTeacher }}" style="display:flex;align-items:center;padding:0 14px;height:100%;font-size:13px;color:#23272e" style-hover="color:#0053b0">先生へ</a>
+      <a href="{{ hrefAbout }}" style="display:flex;align-items:center;padding:0 14px;height:100%;font-size:13px;color:#23272e" style-hover="color:#0053b0">この活動について</a>
+    </div>
+  </nav>  <header style="flex:none;display:flex;align-items:baseline;gap:28px;padding:14px 22px;border-bottom:1px solid #dfe3ea">
+    <div style="font-family:'Noto Sans JP',sans-serif;font-size:15px;letter-spacing:0.02em;opacity:{{ seedOpacity }}">{{ seedText }}</div>
+    <div style="display:flex;align-items:baseline;gap:22px;font-size:12.5px;letter-spacing:0.04em;opacity:0.62">
+      <div style="display:flex;align-items:baseline;gap:7px"><span>語数</span><span style="font-family:'Noto Sans JP',sans-serif;font-size:14px">{{ wordCount }}</span></div>
+      <div style="display:flex;align-items:baseline;gap:7px"><span>深さ</span><span style="font-family:'Noto Sans JP',sans-serif;font-size:14px">{{ maxDepth }}</span></div>
+      <div style="display:flex;align-items:baseline;gap:7px"><span>先端</span><span style="font-family:'Noto Sans JP',sans-serif;font-size:14px">{{ tipCount }}</span></div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;align-items:center;gap:14px;font-size:11.5px;letter-spacing:0.04em;opacity:0.5">
+      <span>{{ saveLabel }}</span>
+      <sc-if value="{{ readOnly }}" hint-placeholder-val="{{ false }}">
+        <span style="padding:3px 8px;border:1px solid #c9d0d9;background:#fff">閲覧のみ</span>
+      </sc-if>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button onClick="{{ onCopyLink }}" style="padding:5px 11px;font-size:11.5px;letter-spacing:0.04em;font-family:'Noto Sans JP',sans-serif;color:inherit;background:transparent;border:1px solid #c9d0d9;background:#fff">{{ copyLabel }}</button>
+      <button onClick="{{ onExportJson }}" style="padding:5px 11px;font-size:11.5px;letter-spacing:0.04em;font-family:'Noto Sans JP',sans-serif;color:inherit;background:transparent;border:1px solid #c9d0d9;background:#fff">JSON</button>
+      <button onClick="{{ onExportPng }}" style="padding:5px 11px;font-size:11.5px;letter-spacing:0.04em;font-family:'Noto Sans JP',sans-serif;color:inherit;background:transparent;border:1px solid #c9d0d9;background:#fff">PNG</button>
+    </div>
+  </header>
+
+  <div data-tg-canvas="1" onPointerDown="{{ onCanvasDown }}" onPointerMove="{{ onPointerMove }}" onPointerUp="{{ onPointerUp }}" onWheel="{{ onWheel }}" style="position:relative;flex:1;overflow:hidden;cursor:{{ canvasCursor }};touch-action:none">
+
+    <div style="position:absolute;left:50%;top:50%;width:0;height:0;transform:translate({{ tx }}px,{{ ty }}px) scale({{ scale }})">
+      <sc-for list="{{ edges }}" as="e" hint-placeholder-count="0">
+        <div style="position:absolute;left:0;top:0;height:1px;transform-origin:0 0;pointer-events:none;width:{{ e.len }}px;background:{{ e.color }};transform:translate({{ e.x }}px,{{ e.y }}px) rotate({{ e.deg }}deg)"></div>
+      </sc-for>
+      <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="0">
+        <div onPointerDown="{{ n.onDown }}" style="position:absolute;left:0;top:0;padding:3px 9px;white-space:nowrap;border-radius:0;user-select:none;cursor:pointer;animation:{{ n.anim }};transform:translate(-50%,-50%) translate({{ n.x }}px,{{ n.y }}px);font-family:{{ n.font }};font-size:{{ n.size }}px;color:{{ n.color }};background:{{ n.bg }};border:1px solid {{ n.border }};font-weight:{{ n.weight }};letter-spacing:{{ n.tracking }}">{{ n.text }}</div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:40px">
+        <div style="font-size:17px;letter-spacing:0.06em;opacity:0.72">英単語をひとつ置くところから始まります</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <input value="{{ seedDraft }}" onChange="{{ onSeedChange }}" onKeyDown="{{ onSeedKey }}" placeholder="draw" spellcheck="false" autocomplete="off" style="width:240px;padding:9px 12px;font-family:'Noto Sans JP',sans-serif;font-size:16px;color:inherit;background:transparent;border:none;border-bottom:1px solid #0053b0;outline:none;text-align:center">
+          <button onClick="{{ onSeedSubmit }}" style="padding:9px 18px;font-size:13.5px;letter-spacing:0.08em;font-family:'Noto Sans JP',sans-serif;color:#fff;background:#0053b0;border:none">置く</button>
+        </div>
+        <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12.5px;letter-spacing:0.04em;color:#0053b0">{{ error }}</div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ confirmText }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;padding:14px 18px;background:{{ panel }};border:1px solid #dfe3ea;box-shadow:0 18px 40px rgb(0 0 0 / 0.28);animation:tg-fade 0.22s ease-out">
+        <div style="font-size:13.5px;letter-spacing:0.03em">{{ confirmText }}</div>
+        <div style="display:flex;gap:8px;flex:none">
+          <button onClick="{{ onConfirmSkip }}" style="padding:6px 13px;white-space:nowrap;font-size:12.5px;font-family:'Noto Sans JP',sans-serif;color:inherit;background:transparent;border:1px solid #c9d0d9;background:#fff">やめる</button>
+          <button onClick="{{ onConfirmJoin }}" style="padding:6px 14px;white-space:nowrap;font-size:12.5px;font-family:'Noto Sans JP',sans-serif;color:#fff;background:#0053b0;border:none">つなぐ</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showBar }}" hint-placeholder-val="{{ false }}">
+    <footer style="flex:none;display:flex;flex-direction:column;gap:6px;padding:14px 22px 16px;border-top:1px solid #dfe3ea">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="flex:none;padding:4px 10px;font-size:11.5px;letter-spacing:0.06em;border:1px solid #dfe3ea;opacity:0.8">{{ nextLangChip }}</span>
+        <span style="flex:none;font-size:13.5px;letter-spacing:0.03em;opacity:0.78">{{ prompt }}</span>
+        <input value="{{ input }}" onChange="{{ onInputChange }}" onKeyDown="{{ onInputKey }}" placeholder="{{ placeholder }}" spellcheck="false" autocomplete="off" style="flex:1;min-width:120px;padding:8px 2px;font-family:{{ inputFont }};font-size:15.5px;color:inherit;background:transparent;border:none;border-bottom:1px solid #0053b0;outline:none">
+        <button onClick="{{ onSubmit }}" style="flex:none;padding:8px 20px;font-size:13.5px;letter-spacing:0.08em;font-family:'Noto Sans JP',sans-serif;color:#fff;background:#0053b0;border:none">置く</button>
+      </div>
+      <div style="display:flex;gap:16px;min-height:16px;font-size:11.5px;letter-spacing:0.04em">
+        <span style="color:#0053b0">{{ error }}</span>
+        <div style="flex:1"></div>
+        <span style="opacity:0.38">カンマか改行で複数まとめて置けます・保存した地図はリンクを知っている人が見られます</span>
+      </div>
+    </footer>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hopRadius&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:168,&quot;min&quot;:110,&quot;max&quot;:260,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;dimUnselected&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;hrefTop&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./index.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefWorkspace&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./workspace.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefStudent&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./play.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefTeacher&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./teacher.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefAbout&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./about.html&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const R_BASE = 168;
+
+const norm = (t, lang) => lang === "en" ? t.trim().toLowerCase().replace(/\s+/g, " ") : t.trim().replace(/\s+/g, "");
+const uid = (p) => p + Math.random().toString(36).slice(2, 9);
+
+/* --- 14.2 pure graph logic --- */
+function computeDepths(nodes, edges, seedId) {
+  const adj = {};
+  nodes.forEach(n => adj[n.id] = []);
+  edges.forEach(e => { if (adj[e.from] && adj[e.to]) { adj[e.from].push(e.to); adj[e.to].push(e.from); } });
+  const d = {};
+  d[seedId] = 0;
+  let q = [seedId];
+  while (q.length) {
+    const cur = q.shift();
+    (adj[cur] || []).forEach(nb => { if (d[nb] === undefined) { d[nb] = d[cur] + 1; q.push(nb); } });
+  }
+  return nodes.map(n => ({ ...n, depth: d[n.id] === undefined ? n.depth : d[n.id] }));
+}
+function degreeMap(nodes, edges) {
+  const g = {};
+  nodes.forEach(n => g[n.id] = 0);
+  edges.forEach(e => { if (g[e.from] !== undefined) g[e.from]++; if (g[e.to] !== undefined) g[e.to]++; });
+  return g;
+}
+function hasEdge(edges, a, b) {
+  return edges.some(e => (e.from === a && e.to === b) || (e.from === b && e.to === a));
+}
+function placeRadial(parent, depth, existing, hopRadius) {
+  const r = Math.max(1, depth) * hopRadius;
+  const base = depth <= 1 ? Math.atan2(parent.y, parent.x) || -Math.PI / 2 : Math.atan2(parent.y, parent.x);
+  const win = depth <= 1 ? Math.PI * 2 : Math.PI * 0.8;
+  let best = null;
+  for (let i = 0; i < 72; i++) {
+    const a = base - win / 2 + (win * i) / 71;
+    const x = r * Math.cos(a), y = r * Math.sin(a);
+    let near = Infinity;
+    existing.forEach(n => {
+      const dd = Math.hypot(n.x - x, n.y - y);
+      if (dd < near) near = dd;
+    });
+    const score = Math.min(near, hopRadius * 1.2) + (1 - Math.abs(a - base) / (win / 2)) * hopRadius * 0.18;
+    if (!best || score > best.score) best = { score, x, y };
+  }
+  return { x: best.x, y: best.y };
+}
+
+/* --- share links: the whole map travels inside the URL, no server --- */
+function packSession(s) {
+  const idx = {};
+  s.nodes.forEach((n, i) => idx[n.id] = i);
+  return {
+    v: 1, s: idx[s.seed],
+    n: s.nodes.map(n => [n.text, n.lang === "en" ? 0 : 1, n.depth || 0, Math.round(n.x), Math.round(n.y)]),
+    e: s.edges.map(e => [idx[e.from], idx[e.to]]).filter(a => a[0] !== undefined && a[1] !== undefined)
+  };
+}
+function unpackSession(p) {
+  const nodes = p.n.map((a, i) => {
+    const lang = a[1] ? "ja" : "en";
+    return { id: "n" + i, text: a[0], key: norm(a[0], lang), lang, depth: a[2], x: a[3], y: a[4], pinned: true };
+  });
+  const edges = p.e.map((a, i) => ({ id: "e" + i, from: nodes[a[0]].id, to: nodes[a[1]].id }));
+  const now = new Date().toISOString();
+  return { v: 1, id: uid("m"), seed: nodes[p.s] ? nodes[p.s].id : nodes[0].id, nodes, edges, createdAt: now, updatedAt: now };
+}
+const code = {
+  encode(obj) {
+    const bytes = new TextEncoder().encode(JSON.stringify(obj));
+    let s = "";
+    for (let i = 0; i < bytes.length; i += 4096) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 4096));
+    return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  },
+  decode(str) {
+    const raw = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+    const bytes = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+};
+
+/* --- 14.1 storage boundary --- */
+const store = {
+  read(id) {
+    try { return JSON.parse(localStorage.getItem("tsunagi.map." + id) || "null"); } catch (e) { return null; }
+  },
+  write(rec) {
+    localStorage.setItem("tsunagi.map." + rec.session.id, JSON.stringify(rec));
+  },
+  loadMap(id) { const r = this.read(id); return r ? r.session : null; },
+  saveMap(session) {
+    const r = this.read(session.id) || { editKey: null };
+    this.write({ editKey: r.editKey, session: { ...session, updatedAt: new Date().toISOString() } });
+  },
+  createMap(seedText) {
+    const id = uid("m"), editKey = uid("k"), now = new Date().toISOString();
+    const seedId = uid("n");
+    const session = {
+      v: 1, id, seed: seedId,
+      nodes: [{ id: seedId, text: seedText.trim(), key: norm(seedText, "en"), lang: "en", depth: 0, x: 0, y: 0, pinned: false }],
+      edges: [], createdAt: now, updatedAt: now
+    };
+    this.write({ editKey, session });
+    return { id, editKey, session };
+  }
+};
+
+class Component extends DCLogic {
+  state = {
+    session: null, readOnly: false, selectedId: null,
+    input: "", seedDraft: "", error: "", pending: [], flash: null,
+    view: { s: 1, tx: 0, ty: 0 }, save: "idle", copied: false, mounted: 0
+  };
+
+  componentDidMount() {
+    this.mountedAt = Date.now();
+    try { this.savedTheme = localStorage.getItem("tsunagi.theme"); } catch (e) {}
+    this.boot();
+    window.addEventListener("hashchange", () => this.boot());
+  }
+
+  boot() {
+    const h = new URLSearchParams((location.hash || "").replace(/^#/, ""));
+    const w = h.get("w"), m = h.get("m"), k = h.get("k"), d = h.get("d");
+    if (d) {
+      try {
+        this.setState({ session: unpackSession(code.decode(d)), readOnly: true, shared: true, selectedId: null, save: "idle", error: "" });
+      } catch (e) {
+        this.setState({ error: "リンクの地図を読み込めませんでした" });
+      }
+      return;
+    }
+    if (m) {
+      const rec = store.read(m);
+      if (!rec) { this.setState({ error: "この地図は見つかりませんでした" }); return; }
+      const editable = !!k && k === rec.editKey;
+      const same = this.state.session && this.state.session.id === rec.session.id;
+      this.setState({
+        session: rec.session, readOnly: !editable,
+        selectedId: same ? this.state.selectedId : null,
+        save: "saved"
+      });
+      return;
+    }
+    if (w) { this.startMap(w); return; }
+    this.setState({ session: null, readOnly: false });
+  }
+
+  startMap(seedText) {
+    const { id, editKey, session } = store.createMap(seedText);
+    location.hash = "m=" + id + "&k=" + editKey;
+    this.setState({ session, selectedId: session.seed, readOnly: false, save: "saved", seedDraft: "", error: "" });
+  }
+
+  commit(session, extra) {
+    this.setState({ session, ...(extra || {}) });
+    clearTimeout(this._t);
+    this.setState({ save: "saving" });
+    this._t = setTimeout(() => {
+      try { store.saveMap(session); this.setState({ save: "saved" }); }
+      catch (e) { this.setState({ save: "local" }); }
+    }, 1200);
+  }
+
+  /* --- adding words --- */
+  submit() {
+    const st = this.state;
+    if (st.readOnly || !st.session) return;
+    const raw = st.input;
+    if (!raw.trim()) { this.setState({ error: "語を入力してください" }); return; }
+    const sel = st.session.nodes.find(n => n.id === st.selectedId);
+    if (!sel) { this.setState({ error: "語をクリックして選んでください" }); return; }
+    const lang = sel.lang === "en" ? "ja" : "en";
+    const words = raw.split(/[,、\n\r]+/).map(s => s.trim()).filter(Boolean);
+    let nodes = st.session.nodes.slice(), edges = st.session.edges.slice();
+    const pending = [], errs = [];
+    words.forEach(w => {
+      const key = norm(w, lang);
+      if (!key) return;
+      const exist = nodes.find(n => n.lang === lang && n.key === key);
+      if (exist) {
+        if (hasEdge(edges, exist.id, sel.id)) errs.push("その線はもうあります");
+        else pending.push({ text: exist.text, nodeId: exist.id, parentId: sel.id });
+        return;
+      }
+      const depth = (sel.depth || 0) + 1;
+      const pos = placeRadial(sel, depth, nodes, this.hop());
+      const id = uid("n");
+      nodes.push({ id, text: w, key, lang, depth, x: pos.x, y: pos.y, pinned: false });
+      edges.push({ id: uid("e"), from: sel.id, to: id });
+    });
+    const session = { ...st.session, nodes: computeDepths(nodes, edges, st.session.seed), edges };
+    this.commit(session, { input: "", error: errs[0] || "", pending: st.pending.concat(pending) });
+    const added = nodes.slice(st.session.nodes.length);
+    if (added.length) setTimeout(() => this.bringIntoView(added), 30);
+  }
+
+  /* pan the view (never the nodes) so newly landed words are visible */
+  /* visible band of the canvas, in viewport coordinates */
+  canvasBand() {
+    const h = document.querySelector("header"), f = document.querySelector("footer");
+    const top = h ? h.getBoundingClientRect().bottom : 0;
+    const bottom = f ? f.getBoundingClientRect().top : window.innerHeight;
+    return { top, bottom: Math.max(top + 160, bottom), left: 0, right: window.innerWidth };
+  }
+
+  bringIntoView(targets) {
+    const b = this.canvasBand();
+    const cx = (b.left + b.right) / 2, cy = (b.top + b.bottom) / 2;
+    const v = this.state.view, m = 96;
+    let tx = v.tx, ty = v.ty;
+    targets.forEach(n => {
+      const sx = cx + tx + n.x * v.s, sy = cy + ty + n.y * v.s;
+      if (sx < b.left + m) tx += b.left + m - sx;
+      else if (sx > b.right - m) tx -= sx - (b.right - m);
+      if (sy < b.top + m) ty += b.top + m - sy;
+      else if (sy > b.bottom - m) ty -= sy - (b.bottom - m);
+    });
+    if (Math.abs(tx - v.tx) < 1 && Math.abs(ty - v.ty) < 1) return;
+    const t0 = performance.now(), fx = v.tx, fy = v.ty;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / 340), e = 1 - Math.pow(1 - k, 3);
+      this.setState({ view: { ...this.state.view, tx: fx + (tx - fx) * e, ty: fy + (ty - fy) * e } });
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    /* throttled or hidden tabs never run rAF — make sure the pan lands anyway */
+    clearTimeout(this._panFallback);
+    this._panFallback = setTimeout(() => {
+      const cur = this.state.view;
+      if (Math.abs(cur.tx - tx) > 1 || Math.abs(cur.ty - ty) > 1) this.setState({ view: { ...cur, tx, ty } });
+    }, 420);
+  }
+
+  resolvePending(join) {
+    const st = this.state;
+    const p = st.pending[0];
+    const rest = st.pending.slice(1);
+    if (!join || !p) { this.setState({ pending: rest }); return; }
+    const edges = st.session.edges.concat([{ id: uid("e"), from: p.parentId, to: p.nodeId }]);
+    const session = { ...st.session, nodes: computeDepths(st.session.nodes, edges, st.session.seed), edges };
+    this.commit(session, { pending: rest, flash: p.nodeId });
+    const t = st.session.nodes.find(n => n.id === p.nodeId);
+    if (t) setTimeout(() => this.bringIntoView([t]), 30);
+    clearTimeout(this._f);
+    this._f = setTimeout(() => this.setState({ flash: null }), 1400);
+  }
+
+  hop() { return Number(this.props.hopRadius) || R_BASE; }
+
+  /* --- pointer handling --- */
+  onNodeDown(e, n) {
+    e.stopPropagation();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+    this.drag = { id: n.id, sx: e.clientX, sy: e.clientY, ox: n.x, oy: n.y, moved: false };
+  }
+  onCanvasDown(e) {
+    this.el = e.currentTarget;
+    this.pan = { sx: e.clientX, sy: e.clientY, tx: this.state.view.tx, ty: this.state.view.ty };
+    if (this.state.selectedId && !this.state.readOnly) this.setState({ selectedId: this.state.selectedId });
+  }
+  onMove(e) {
+    if (this.drag) {
+      const s = this.state.view.s;
+      const dx = (e.clientX - this.drag.sx) / s, dy = (e.clientY - this.drag.sy) / s;
+      if (Math.abs(dx) + Math.abs(dy) > 3) this.drag.moved = true;
+      if (!this.drag.moved || this.state.readOnly) return;
+      const nodes = this.state.session.nodes.map(n =>
+        n.id === this.drag.id ? { ...n, x: this.drag.ox + dx, y: this.drag.oy + dy, pinned: true } : n);
+      this.setState({ session: { ...this.state.session, nodes } });
+      return;
+    }
+    if (this.pan) {
+      const dx = e.clientX - this.pan.sx, dy = e.clientY - this.pan.sy;
+      if (Math.abs(dx) + Math.abs(dy) > 2) this.pan.moved = true;
+      this.setState({ view: { ...this.state.view, tx: this.pan.tx + dx, ty: this.pan.ty + dy } });
+    }
+  }
+  onUp() {
+    if (this.drag) {
+      if (!this.drag.moved) this.setState({ selectedId: this.drag.id, error: "" });
+      else if (this.state.session) this.commit(this.state.session);
+      this.drag = null;
+      return;
+    }
+    this.pan = null;
+  }
+  onWheel(e) {
+    e.preventDefault();
+    const v = this.state.view;
+    const f = Math.exp(-e.deltaY * 0.0016);
+    const s = Math.min(2.4, Math.max(0.32, v.s * f));
+    this.setState({ view: { s, tx: v.tx * (s / v.s), ty: v.ty * (s / v.s) } });
+  }
+
+  /* --- exports --- */
+  exportJson() {
+    const s = this.state.session;
+    if (!s) return;
+    const blob = new Blob([JSON.stringify(s, null, 2)], { type: "application/json" });
+    this.download(blob, (this.seedText() || "map") + ".json");
+  }
+  exportPng() {
+    const s = this.state.session;
+    if (!s) return;
+    const dark = false;
+    const pad = 90, dpr = 2;
+    const xs = s.nodes.map(n => n.x), ys = s.nodes.map(n => n.y);
+    const minX = Math.min(...xs) - pad, maxX = Math.max(...xs) + pad;
+    const minY = Math.min(...ys) - pad, maxY = Math.max(...ys) + pad;
+    const w = Math.max(600, maxX - minX), h = Math.max(400, maxY - minY);
+    const c = document.createElement("canvas");
+    c.width = w * dpr; c.height = h * dpr;
+    const g = c.getContext("2d");
+    g.scale(dpr, dpr);
+    g.fillStyle = dark ? "#12122a" : "#ffffff";
+    g.fillRect(0, 0, w, h);
+    const map = {};
+    s.nodes.forEach(n => map[n.id] = n);
+    g.strokeStyle = dark ? "rgba(244,241,228,0.24)" : "rgba(28,26,20,0.24)";
+    g.lineWidth = 1;
+    s.edges.forEach(e => {
+      const a = map[e.from], b = map[e.to];
+      if (!a || !b) return;
+      g.beginPath();
+      g.moveTo(a.x - minX, a.y - minY);
+      g.lineTo(b.x - minX, b.y - minY);
+      g.stroke();
+    });
+    s.nodes.forEach(n => {
+      const size = this.sizeFor(n.depth), op = this.opacityFor(n.depth);
+      g.font = (n.lang === "ja" ? size + 'px "Noto Sans JP", sans-serif' : size + 'px "Noto Sans JP", sans-serif');
+      const tw = g.measureText(n.text).width;
+      const x = n.x - minX, y = n.y - minY;
+      g.fillStyle = dark ? "#12122a" : "#ffffff";
+      g.fillRect(x - tw / 2 - 6, y - size * 0.72, tw + 12, size * 1.44);
+      g.fillStyle = dark ? "rgba(244,241,228," + op + ")" : "rgba(28,26,20," + op + ")";
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillText(n.text, x, y);
+    });
+    c.toBlob(b => this.download(b, (this.seedText() || "map") + ".png"));
+  }
+  download(blob, name) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+  /* copy the map itself into the link, so other people and other devices can open it */
+  copyLink() {
+    const s = this.state.session;
+    if (!s) return;
+    const url = location.origin + location.pathname + "#d=" + code.encode(packSession(s));
+    if (url.length > 12000) {
+      this.setState({ error: "地図が大きすぎてリンクに収まりません。JSONで書き出してください" });
+      return;
+    }
+    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(
+      () => { this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 1600); },
+      () => this.setState({ error: "リンクをコピーできませんでした" })
+    );
+  }
+
+  sizeFor(d) { return [30, 23, 19, 17, 16][Math.min(4, d || 0)]; }
+  opacityFor(d) { return [1, 0.84, 0.68, 0.56, 0.46][Math.min(4, d || 0)]; }
+  seedText() {
+    const s = this.state.session;
+    if (!s) return "";
+    const n = s.nodes.find(x => x.id === s.seed);
+    return n ? n.text : "";
+  }
+
+  renderVals() {
+    const st = this.state;
+    const dark = false;
+    const bg = dark ? "#12122a" : "#ffffff";
+    const ink = dark ? "#f4f1e4" : "#23272e";
+    const rgb = dark ? "244,241,228" : "35,39,46";
+    const hair = "#dfe3ea";
+    const hairStrong = "#c9d0d9";
+    const accent = "#0053b0";
+    const dim = this.props.dimUnselected !== false && !st.readOnly;
+    const s = st.session;
+    const nodesRaw = s ? s.nodes : [];
+    const edgesRaw = s ? s.edges : [];
+    const deg = degreeMap(nodesRaw, edgesRaw);
+    const sel = nodesRaw.find(n => n.id === st.selectedId) || null;
+    const neighbors = {};
+    if (sel) edgesRaw.forEach(e => {
+      if (e.from === sel.id) neighbors[e.to] = 1;
+      if (e.to === sel.id) neighbors[e.from] = 1;
+    });
+    const map = {};
+    nodesRaw.forEach(n => map[n.id] = n);
+
+    const nodes = nodesRaw.map(n => {
+      const related = !sel || n.id === sel.id || neighbors[n.id];
+      const op = this.opacityFor(n.depth) * (dim && !related ? 0.34 : 1);
+      const isSel = sel && n.id === sel.id;
+      return {
+        id: n.id, text: n.text,
+        x: Math.round(n.x * 100) / 100, y: Math.round(n.y * 100) / 100,
+        size: this.sizeFor(n.depth),
+        font: n.lang === "ja" ? "'Noto Sans JP',sans-serif" : "'Noto Sans JP',sans-serif",
+        weight: n.depth === 0 ? 600 : 400,
+        tracking: n.lang === "en" ? "0.01em" : "0.04em",
+        color: "rgba(" + rgb + "," + op.toFixed(2) + ")",
+        bg: bg,
+        border: isSel ? accent : "transparent",
+        anim: st.flash === n.id ? "tg-flash 1.3s ease-out" : "tg-land 0.42s ease-out",
+        onDown: (e) => this.onNodeDown(e, n)
+      };
+    });
+
+    const edges = edgesRaw.map(e => {
+      const a = map[e.from], b = map[e.to];
+      if (!a || !b) return null;
+      const related = !sel || e.from === sel.id || e.to === sel.id;
+      const o = dim && !related ? 0.1 : 0.28;
+      return {
+        x: Math.round(a.x), y: Math.round(a.y),
+        len: Math.round(Math.hypot(b.x - a.x, b.y - a.y)),
+        deg: (Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI).toFixed(2),
+        color: "rgba(" + rgb + "," + o + ")"
+      };
+    }).filter(Boolean);
+
+    const nextLang = sel ? (sel.lang === "en" ? "ja" : "en") : "ja";
+    const tips = nodesRaw.filter(n => n.id !== (s && s.seed) && deg[n.id] === 1).length;
+    const p = st.pending[0];
+
+    return {
+      bg, ink, hair, hairStrong, panel: dark ? "#1a1a3a" : "#f4f6f9",
+      hrefTop: this.props.hrefTop || "./index.html",
+      hrefWorkspace: this.props.hrefWorkspace || "./workspace.html",
+      hrefStudent: this.props.hrefStudent || "./play.html",
+      hrefTeacher: this.props.hrefTeacher || "./teacher.html",
+      hrefAbout: this.props.hrefAbout || "./about.html",
+      seedText: this.seedText() || "—",
+      seedOpacity: s ? 0.9 : 0.35,
+      wordCount: nodesRaw.length,
+      maxDepth: nodesRaw.reduce((m, n) => Math.max(m, n.depth || 0), 0),
+      tipCount: tips,
+      saveLabel: { idle: "", saving: "保存中", saved: "保存済み", local: "端末に控えあり" }[st.save] || "",
+      readOnly: st.readOnly,
+      copyLabel: st.copied ? "コピーしました" : "閲覧リンク",
+      isEmpty: !s,
+      showBar: !!s && !st.readOnly,
+      nodes, edges,
+      tx: st.view.tx, ty: st.view.ty, scale: st.view.s,
+      canvasCursor: this.pan ? "grabbing" : "default",
+      nextLangChip: nextLang === "en" ? "次は英語" : "次は日本語",
+      prompt: sel ? sel.text + (nextLang === "en" ? " を和英辞書で引く" : " を英和辞書で引く") : "語をクリックして選ぶ",
+      placeholder: nextLang === "en" ? "拾った英語の語" : "拾った日本語の語",
+      inputFont: nextLang === "en" ? "'Noto Sans JP',sans-serif" : "'Noto Sans JP',sans-serif",
+      input: st.input,
+      seedDraft: st.seedDraft,
+      error: st.error,
+      confirmText: p ? "「" + p.text + "」はすでに地図にあります。線をつなぎますか" : "",
+      onInputChange: (e) => this.setState({ input: e.target.value, error: "" }),
+      onInputKey: (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); this.submit(); } },
+      onSubmit: () => this.submit(),
+      onSeedChange: (e) => this.setState({ seedDraft: e.target.value, error: "" }),
+      onSeedKey: (e) => { if (e.key === "Enter") { e.preventDefault(); this.state.seedDraft.trim() ? this.startMap(this.state.seedDraft) : this.setState({ error: "語を入力してください" }); } },
+      onSeedSubmit: () => this.state.seedDraft.trim() ? this.startMap(this.state.seedDraft) : this.setState({ error: "語を入力してください" }),
+      onConfirmJoin: () => this.resolvePending(true),
+      onConfirmSkip: () => this.resolvePending(false),
+      onCanvasDown: (e) => this.onCanvasDown(e),
+      onPointerMove: (e) => this.onMove(e),
+      onPointerUp: () => this.onUp(),
+      onWheel: (e) => this.onWheel(e),
+      onCopyLink: () => this.copyLink(),
+      onExportJson: () => this.exportJson(),
+      onExportPng: () => this.exportPng()
+    };
+  }
+}
+
+</script>
+</body>
+</html>

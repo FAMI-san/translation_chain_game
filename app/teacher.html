@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&amp;family=Noto+Serif+JP:wght@500;600&amp;display=swap">
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; color: #23272e; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0053b0; text-decoration: none; }
+  a:hover { color: #003b7e; }
+  button { font: inherit; cursor: pointer; }
+  img { display: block; }
+  summary::-webkit-details-marker { display: none; }
+  details[open] summary span[data-mark] { transform: rotate(90deg); }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#fff;color:#23272e">
+
+  <div style="background:#0053b0;color:#fff;font-size:12px;letter-spacing:0.04em">
+    <div style="max-width:1120px;margin:0 auto;padding:7px 20px;display:flex;justify-content:flex-end;gap:18px">
+      <span>英和・和英辞典を使う授業活動</span>
+      <span style="opacity:0.7">辞書があればできます</span>
+    </div>
+  </div>
+
+  <header style="position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dfe3ea">
+    <div style="max-width:1120px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;min-height:70px">
+      <a href="{{ hrefTop }}" style="display:flex;flex-direction:column;gap:3px;padding:12px 0;color:#0053b0">
+        <span style="font-family:'Noto Serif JP',serif;font-size:19px;font-weight:600;letter-spacing:0.06em">翻訳繋ぎゲーム</span>
+        <span style="font-size:10.5px;letter-spacing:0.14em;color:#6b7280">TRANSLATION CHAIN</span>
+      </a>
+      <div style="flex:1"></div>
+      <nav style="display:flex;flex-wrap:wrap;align-items:stretch;gap:2px">
+        <a href="{{ hrefTop }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">トップ</a>
+        <a href="{{ hrefStudent }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">あそびかた</a>
+        <a href="{{ hrefTeacher }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;font-weight:500;color:#0053b0;border-bottom:3px solid #0053b0">先生へ</a>
+        <a href="{{ hrefAbout }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">この活動について</a>
+        <a href="{{ hrefWorkspace }}" style="display:flex;align-items:center;margin:12px 0 12px 12px;padding:0 20px;font-size:14px;font-weight:500;color:#fff;background:#0053b0" style-hover="background:#003b7e;color:#fff">作業空間をひらく</a>
+      </nav>
+    </div>
+  </header>
+
+  <div style="background:#f4f6f9;border-bottom:1px solid #e3e7ee">
+    <div style="max-width:1120px;margin:0 auto;padding:14px 20px;font-size:12px;color:#6b7280">
+      <a href="{{ hrefTop }}" style="color:#6b7280" style-hover="color:#0053b0">トップ</a><span style="padding:0 9px">›</span><span>先生へ</span>
+    </div>
+  </div>
+
+  <div style="position:relative;color:#fff;background-color:#0b2c55;background-image:url('./assets/map-04.jpg');background-size:cover;background-position:center 28%">
+    <div style="position:absolute;inset:0;background:linear-gradient(100deg, rgba(4,26,54,0.92) 0%, rgba(4,26,54,0.78) 55%, rgba(4,26,54,0.62) 100%)"></div>
+    <div style="position:relative;max-width:1120px;margin:0 auto;padding:44px 20px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:11px;letter-spacing:0.2em;color:#9dc4f2">FOR TEACHERS</span>
+      <h1 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(22px,3.8vw,32px);font-weight:600;letter-spacing:0.04em;line-height:1.55;text-wrap:pretty">辞書を最後まで読ませるための50分</h1>
+      <p style="margin:0;font-size:15px;line-height:2;color:#dbe6f4;max-width:40em;text-wrap:pretty">英単語ひとつを起点に、英和辞典と和英辞典を往復して意味のネットワークを描く活動です。</p>
+    </div>
+  </div>
+
+  <div style="border-bottom:1px solid #dfe3ea;background:#fff">
+    <div style="max-width:1120px;margin:0 auto;padding:16px 20px;display:flex;flex-wrap:wrap;gap:8px 20px">
+      <a href="#s-why" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">授業でこの活動を選ぶ理由</a>
+      <a href="#s-what" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">どんな活動か</a>
+      <a href="#s-rules" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">ルール</a>
+      <a href="#s-flow" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">授業の流れ</a>
+      <a href="#s-compare" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">比較の観点</a>
+      <a href="#s-reason" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">なぜこの活動なのか</a>
+      <a href="#s-trouble" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">よくある躓き</a>
+      <a href="#s-words" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">単語の選び方</a>
+      <a href="#s-grade" style="font-size:12.5px;color:#5b6472" style-hover="color:#0053b0">評価について</a>
+    </div>
+  </div>
+
+  <main style="max-width:1120px;margin:0 auto;padding:0 20px 92px;width:100%">
+
+    <section id="s-why" style="padding:56px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">OVERVIEW</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">授業でこの活動を選ぶ理由</h2>
+      </div>
+      <dl style="margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:0;padding-top:12px">
+        <dt style="padding:15px 22px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">所要時間</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">50分（短縮版 30分も可）</dd>
+        <dt style="padding:15px 22px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">対象</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">英和・和英辞典が引ければ学年は問わない。</dd>
+        <dt style="padding:15px 22px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">準備物</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">紙、ペン、辞書</dd>
+        <dt style="padding:15px 22px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">教材</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">授業の単元で扱った単語を利用することが可能です。</dd>
+        <dt style="padding:15px 22px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">事前準備</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">単語を割り当てるだけ。</dd>
+      </dl>
+      <p style="margin:28px 0 0;padding:18px 22px;background:#fdf3f3;border-left:5px solid #c8102e;font-size:14.5px;line-height:2;text-wrap:pretty"><strong style="font-weight:700;color:#c8102e">翻訳アプリは使わせないでください。</strong>辞書の項目を読むことがこの活動の中身です。紙の辞書だと項目全体が一度に目に入るので最も効果が出ますが、電子辞書でも成立します。</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;padding:30px 0 0">
+        <a href="{{ hrefWorkspace }}" style="padding:14px 30px;font-size:15px;font-weight:500;color:#fff;background:#0053b0" style-hover="background:#003b7e;color:#fff">作業空間を試す</a>
+      </div>
+    </section>
+
+    <section id="s-what" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">ACTIVITY</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">どんな活動か</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px 44px;padding-top:30px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <p style="margin:0;font-size:15px;line-height:2.1;text-wrap:pretty">英単語をひとつ、真ん中に置きます。</p>
+          <p style="margin:0;font-size:15px;line-height:2.1;text-wrap:pretty">それを英和辞典で引き、訳語をいくつか選んで周りに置く。次にその訳語を和英辞典で引き、出てきた英単語をさらに周りに置く。これを繰り返すと、日本語と英語が交互に連なったネットワークができあがります。</p>
+          <p style="margin:0;font-size:15px;line-height:2.1;text-wrap:pretty">やがて、すでに置いた語が別の経路から再び出てきます。そこで線がつながり、放射状だった枝が網になる。この瞬間が活動の山場です。</p>
+        </div>
+        <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+          <div style="border:1px solid #dfe3ea;background:#f4f6f9"><img src="./assets/map-04.jpg" alt="生徒が描いた翻訳地図" style="width:100%;height:auto"></div>
+          <figcaption style="font-size:12.5px;line-height:1.9;color:#6b7280;text-wrap:pretty">生徒が描いた地図。赤が日本語、黒が英語</figcaption>
+        </figure>
+      </div>
+
+      <div style="overflow-x:auto;padding:30px 0 30px">
+        <div style="display:grid;grid-template-columns:max-content 38px max-content 38px max-content;align-items:center;row-gap:16px;min-width:max-content;padding:30px 28px;background:#f4f6f9;border:1px solid #dfe3ea">
+          <div style="grid-column:1;grid-row:1 / 6;padding:9px 15px;font-size:19px;font-weight:500;color:#fff;background:#0053b0">draw</div>
+          <div style="grid-column:2;grid-row:1;height:1px;background:#a9b4c4"></div>
+          <div style="grid-column:2;grid-row:3;height:2px;background:#0053b0"></div>
+          <div style="grid-column:2;grid-row:5;height:1px;background:#a9b4c4"></div>
+          <div style="grid-column:3;grid-row:1;padding:7px 13px;font-size:16px;background:#fff;border:1px solid #dfe3ea">描く</div>
+          <div style="grid-column:3;grid-row:3;padding:7px 13px;font-size:16px;font-weight:500;color:#0053b0;background:#fff;border:1px solid #0053b0">引く</div>
+          <div style="grid-column:3;grid-row:5;padding:7px 13px;font-size:16px;background:#fff;border:1px solid #dfe3ea">引き分け</div>
+          <div style="grid-column:4;grid-row:2;height:1px;background:#a9b4c4"></div>
+          <div style="grid-column:4;grid-row:4;height:1px;background:#a9b4c4"></div>
+          <div style="grid-column:5;grid-row:2;padding:7px 13px;font-size:14.5px;color:#5b6472;background:#fff;border:1px solid #dfe3ea">pull</div>
+          <div style="grid-column:5;grid-row:4;padding:7px 13px;font-size:14.5px;color:#5b6472;background:#fff;border:1px solid #dfe3ea">attract</div>
+        </div>
+      </div>
+
+      <p style="margin:0;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">draw から始めると 描く 引く 引き分け が出て、引く からは pull attract が出る。往復しても draw には戻ってこない。訳が一対一でないことが、説明ではなく手元の作業として現れます。</p>
+    </section>
+
+    <section id="s-rules" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">RULES</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">ルール</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;padding-top:12px;max-width:44em">
+        <div style="display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #dfe3ea"><span style="flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;background:#0053b0">1</span><span style="font-size:15px;line-height:1.85;text-wrap:pretty">起点は英単語ひとつ</span></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #dfe3ea"><span style="flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;background:#0053b0">2</span><span style="font-size:15px;line-height:1.85;text-wrap:pretty">辞書で引いた訳語から、<strong style="font-weight:700;color:#0053b0">3語以上</strong>選んで置く</span></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #dfe3ea"><span style="flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;background:#0053b0">3</span><span style="font-size:15px;line-height:1.85;text-wrap:pretty">日本語と英語は線でつなぐ。同じ言語同士はつながない</span></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid #dfe3ea"><span style="flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;background:#0053b0">4</span><span style="font-size:15px;line-height:1.85;text-wrap:pretty">すでに地図にある語が出てきたら、新しく書かずにその語へ線を引く</span></div>
+      </div>
+      <p style="margin:26px 0 0;padding:18px 22px;background:#f4f6f9;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">3は画面が自動で守ります。4も画面が検出して知らせます。生徒が意識するのは1と2だけです。</p>
+    </section>
+
+    <section id="s-flow" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">TIMELINE</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">授業の流れ</h2>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:3px;padding:30px 0 30px">
+        <div style="flex:5 1 0;min-width:0"><div style="font-size:11px;color:#6b7280;padding-bottom:6px">5分</div><div style="height:8px;background:#c9d6e6"></div></div>
+        <div style="flex:10 1 0;min-width:0"><div style="font-size:11px;color:#6b7280;padding-bottom:6px">10分</div><div style="height:8px;background:#c9d6e6"></div></div>
+        <div style="flex:20 1 0;min-width:0"><div style="font-size:11px;color:#0053b0;padding-bottom:6px">20分</div><div style="height:8px;background:#0053b0"></div></div>
+        <div style="flex:10 1 0;min-width:0"><div style="font-size:11px;color:#6b7280;padding-bottom:6px">10分</div><div style="height:8px;background:#c9d6e6"></div></div>
+        <div style="flex:5 1 0;min-width:0"><div style="font-size:11px;color:#6b7280;padding-bottom:6px">5分</div><div style="height:8px;background:#c9d6e6"></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:20px 0;border-top:1px solid #dfe3ea">
+          <div style="font-size:15px;font-weight:500;color:#0053b0">導入（5分）</div>
+          <p style="margin:0;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">「見る」を英語にすると何になるか、生徒に挙げさせる。see、look、watch が出る。では逆に、see を日本語にすると何になるか。ここで手が止まる。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:20px 0;border-top:1px solid #dfe3ea">
+          <div style="font-size:15px;font-weight:500;color:#0053b0">実演（10分）</div>
+          <p style="margin:0;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">教師が画面で3手ほど進めてみせる。ここで見せるべきは、訳語を選ぶときに迷う様子です。「この訳語は拾うか、拾わないか」を口に出す。生徒が真似すべきはそこなので。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:22px 24px;background:#f4f6f9;border-left:5px solid #0053b0">
+          <div style="font-size:15px;font-weight:500;color:#0053b0">作業（20分）</div>
+          <p style="margin:0;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">割り当てた語で各自が地図を作る。机間指導では「その項目、最後まで読んだ？」だけ言えば足ります。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:20px 0;border-top:1px solid #dfe3ea">
+          <div style="font-size:15px;font-weight:500;color:#0053b0">比較（10分）</div>
+          <p style="margin:0;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">同じ語を割り当てられた生徒同士で見せ合う。観点は次項。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:20px 0;border-top:1px solid #dfe3ea;border-bottom:1px solid #dfe3ea">
+          <div style="font-size:15px;font-weight:500;color:#0053b0">まとめ（5分）</div>
+          <p style="margin:0;font-size:14.5px;line-height:2;max-width:44em;text-wrap:pretty">訳は一対一で決まらず、文脈で決まる。翻訳とは、完全に一致させることではなく、できるだけ近い意味を届ける仕事である。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="s-compare" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">COMPARE</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">比較の観点</h2>
+      </div>
+      <p style="margin:0;padding:28px 0 26px;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">同じ語から始めても、地図は生徒ごとに違う形になります。そこを見せるのが比較の目的です。</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px">
+        <div style="display:flex;flex-direction:column;gap:10px;padding:24px;border:1px solid #dfe3ea;border-top:3px solid #0053b0">
+          <span style="font-size:10.5px;letter-spacing:0.18em;color:#0053b0">WORDS</span>
+          <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">どこまで広がったか。</span>
+          <span style="font-size:13.5px;line-height:1.95;color:#5b6472;text-wrap:pretty">語数と、起点から何回往復したか</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding:24px;border:1px solid #dfe3ea;border-top:3px solid #0053b0">
+          <span style="font-size:10.5px;letter-spacing:0.18em;color:#0053b0">DEPTH</span>
+          <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">元の意味はどこまで残ったか。</span>
+          <span style="font-size:13.5px;line-height:1.95;color:#5b6472;text-wrap:pretty">離れていく過程で意味が近いまま変化したのか、まったく別のものになったのか</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding:24px;border:1px solid #dfe3ea;border-top:3px solid #0053b0">
+          <span style="font-size:10.5px;letter-spacing:0.18em;color:#0053b0">TIPS</span>
+          <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">先端に何があるか。</span>
+          <span style="font-size:13.5px;line-height:1.95;color:#5b6472;text-wrap:pretty">たどりつけなくなった語は何だったか</span>
+        </div>
+      </div>
+      <p style="margin:26px 0 0;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">画面上部にこの3つの数値が出ているので、生徒はすぐ比べられます。ただし数値の大小は優劣ではありません。広がらなかった地図には、その語の意味が絞られているという発見があります。</p>
+    </section>
+
+    <section id="s-reason" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">WHY</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">なぜこの活動なのか</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:34px 44px;padding-top:32px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h3 style="margin:0;font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;letter-spacing:0.03em;color:#0053b0;text-wrap:pretty">辞書を最後まで読ませられる</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">生徒は辞書を引きません。引いても、最初の訳語で止まります。「よく読みなさい」と言っても行動は変わりません。</p>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">この活動では、訳語を複数拾わないと地図が広がらない。項目を最後まで読むことが指導ではなく<strong style="font-weight:700">勝利条件</strong>になります。行動を変えるのは指示ではなく設計だ、というのがこの活動の出発点です。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h3 style="margin:0;font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;letter-spacing:0.03em;color:#0053b0;text-wrap:pretty">類義語の布置を、教わらずに発見する</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">see、look、watch の違いは普通、教師が説明します。この活動では生徒が自分で描き当てます。</p>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">しかも和英を経由するので、英英辞典的な類義語グループとは違うものが見えます。「日本語話者にとってこれらの語がどう隣り合っているか」という布置です。既存の語彙教材にはない切り口だと考えています。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h3 style="margin:0;font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;letter-spacing:0.03em;color:#0053b0;text-wrap:pretty">訳の一対一対応が崩れる瞬間に立ち会う</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">「訳は文脈で決まる」は、言葉で伝えても実感になりません。往復しても元の語に戻らないという事実を自分の手で作ると、実感として残ります。</p>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">和訳問題の答えがなぜ一つに定まらないのか。その説明をこの地図を指しながらできるようになります。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h3 style="margin:0;font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;letter-spacing:0.03em;color:#0053b0;text-wrap:pretty">語の切り分け方が言語ごとに違うと気づく</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;text-wrap:pretty">日本語の「見る」が覆う範囲と、see・look・watch がそれぞれ覆う範囲はずれています。言語ごとに世界の切り分け方が違う、という気づきの入口になります。</p>
+          <p style="margin:0;font-size:13.5px;line-height:2;color:#6b7280;text-wrap:pretty">ただし正直に書けば、50分の活動で異文化理解まで到達するとは言えません。ここは種を蒔くところだと考えています。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="s-trouble" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">TROUBLESHOOTING</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">よくある躓き</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;padding-top:12px">
+        <details style="border-bottom:1px solid #dfe3ea">
+          <summary style="display:flex;align-items:center;gap:14px;padding:17px 2px;font-size:15px;list-style:none;cursor:pointer"><span data-mark="1" style="display:inline-block;font-size:11px;color:#0053b0;transition:transform 0.18s ease">▶</span>地図が伸びない</summary>
+          <p style="margin:0;padding:0 2px 20px 30px;font-size:14.5px;line-height:2;max-width:44em;color:#5b6472;text-wrap:pretty">最初の訳語しか拾っていません。「3語以上」を最低ラインとして最初に強く言っておくと防げます。</p>
+        </details>
+        <details style="border-bottom:1px solid #dfe3ea">
+          <summary style="display:flex;align-items:center;gap:14px;padding:17px 2px;font-size:15px;list-style:none;cursor:pointer"><span data-mark="1" style="display:inline-block;font-size:11px;color:#0053b0;transition:transform 0.18s ease">▶</span>同じ語に戻ってしまって手が止まる</summary>
+          <p style="margin:0;padding:0 2px 20px 30px;font-size:14.5px;line-height:2;max-width:44em;color:#5b6472;text-wrap:pretty">これは失敗ではなく成功です。事前に「戻ってきたら線をつなぐ。それが一番面白いところ」と伝えておいてください。</p>
+        </details>
+        <details style="border-bottom:1px solid #dfe3ea">
+          <summary style="display:flex;align-items:center;gap:14px;padding:17px 2px;font-size:15px;list-style:none;cursor:pointer"><span data-mark="1" style="display:inline-block;font-size:11px;color:#0053b0;transition:transform 0.18s ease">▶</span>訳語がわからない語に行き着く</summary>
+          <p style="margin:0;padding:0 2px 20px 30px;font-size:14.5px;line-height:2;max-width:44em;color:#5b6472;text-wrap:pretty">そこで止めて構いません。先端に何が残ったかは、比較の材料になります。</p>
+        </details>
+        <details style="border-bottom:1px solid #dfe3ea">
+          <summary style="display:flex;align-items:center;gap:14px;padding:17px 2px;font-size:15px;list-style:none;cursor:pointer"><span data-mark="1" style="display:inline-block;font-size:11px;color:#0053b0;transition:transform 0.18s ease">▶</span>辞書を引かずに知っている訳語だけ書く</summary>
+          <p style="margin:0;padding:0 2px 20px 30px;font-size:14.5px;line-height:2;max-width:44em;color:#5b6472;text-wrap:pretty">本末転倒ですが、起きます。「地図に置く語は必ず辞書の項目にあったものだけ」と条件をつけてください。</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="s-words" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">WORD CHOICE</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">単語の選び方</h2>
+      </div>
+      <p style="margin:0;padding:28px 0 22px;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">向いているのは、<strong style="font-weight:700;color:#0053b0">多義の基本語</strong>です。日常的で、品詞をまたぎ、いくつもの訳語を持つ語。</p>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:0 0 24px">
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">draw</span>
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">spot</span>
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">check</span>
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">shape</span>
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">continue</span>
+        <span style="padding:8px 15px;font-size:14.5px;color:#0053b0;background:#eaf1f9;border:1px solid #c9d9ec">receive</span>
+        <span style="font-size:14px;color:#6b7280">— このあたりは確実に広がります。</span>
+      </div>
+      <p style="margin:0 0 16px;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">向かないのは、専門語、固有名詞、抽象度の高い名詞です。訳語が一つしかなく、二手目で行き止まりになります。</p>
+      <p style="margin:0;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">同じ語を2人以上に割り当ててください。比較のためです。</p>
+    </section>
+
+    <section id="s-grade" style="padding:74px 0 0;scroll-margin-top:80px">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:26px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">ASSESSMENT</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">評価について</h2>
+      </div>
+      <p style="margin:28px 0 22px;padding:18px 22px;font-size:16px;font-weight:500;line-height:1.9;max-width:44em;color:#0053b0;background:#f4f6f9;border-left:5px solid #0053b0;text-wrap:pretty">点数をつけないことを勧めます。</p>
+      <p style="margin:0 0 20px;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">採点すると生徒は「正解の訳語」を探し始め、辞書を吟味しなくなります。どの訳語を拾うかは判断であって、正誤ではありません。この活動の学習は判断の側にあります。</p>
+      <p style="margin:0;font-size:15px;line-height:2.1;max-width:44em;text-wrap:pretty">記録を残したい場合は、地図そのものではなく振り返りを見てください。「意外だった繋がりを一つ挙げる」だけで、辞書をどう読んだかは十分わかります。</p>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px;margin-top:74px;padding:34px;background:#f4f6f9;border-left:5px solid #0053b0">
+      <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+        <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;letter-spacing:0.04em">起点語リンクを配るだけで始められます</span>
+        <span style="font-size:13.5px;color:#5b6472">リンクは <span style="color:#0053b0">#w=draw</span> の形で配れます</span>
+      </div>
+      <a href="{{ hrefWorkspace }}" style="flex:none;padding:15px 34px;font-size:15px;font-weight:500;color:#fff;background:#0053b0" style-hover="background:#003b7e;color:#fff">作業空間を試す</a>
+    </div>
+
+  </main>
+
+  <footer style="margin-top:auto;background:#1b2330;color:#c3cad6">
+    <div style="max-width:1120px;margin:0 auto;padding:36px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px">
+      <span style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;letter-spacing:0.06em;color:#fff">翻訳繋ぎゲーム</span>
+      <div style="flex:1"></div>
+      <nav style="display:flex;flex-wrap:wrap;gap:18px;font-size:13px">
+        <a href="{{ hrefTop }}" style="color:#c3cad6" style-hover="color:#fff">トップ</a>
+        <a href="{{ hrefWorkspace }}" style="color:#c3cad6" style-hover="color:#fff">作業空間</a>
+        <a href="{{ hrefStudent }}" style="color:#c3cad6" style-hover="color:#fff">あそびかた</a>
+        <a href="{{ hrefAbout }}" style="color:#c3cad6" style-hover="color:#fff">この活動について</a>
+      </nav>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hrefTop&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./index.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefWorkspace&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./workspace.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefStudent&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./play.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefTeacher&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./teacher.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefAbout&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./about.html&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return {
+      hrefTop: p.hrefTop || "./index.html",
+      hrefWorkspace: p.hrefWorkspace || "./workspace.html",
+      hrefStudent: p.hrefStudent || "./play.html",
+      hrefTeacher: p.hrefTeacher || "./teacher.html",
+      hrefAbout: p.hrefAbout || "./about.html"
+    };
+  }
+}
+</script>
+</body>
+</html>

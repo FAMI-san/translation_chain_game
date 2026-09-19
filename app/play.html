@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; color: #23272e; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0053b0; text-decoration: none; }
+  a:hover { color: #003b7e; }
+  button { font: inherit; cursor: pointer; }
+  img { display: block; }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#fff;color:#23272e">
+
+  <div style="background:#0053b0;color:#fff;font-size:12px;letter-spacing:0.04em">
+    <div style="max-width:1120px;margin:0 auto;padding:7px 20px;display:flex;justify-content:flex-end;gap:18px">
+      <span>英和・和英辞典を使う授業活動</span>
+      <span style="opacity:0.7">辞書があればできます</span>
+    </div>
+  </div>
+
+  <header style="position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dfe3ea">
+    <div style="max-width:1120px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;min-height:70px">
+      <a href="{{ hrefTop }}" style="display:flex;flex-direction:column;gap:3px;padding:12px 0;color:#0053b0">
+        <span style="font-family:'Noto Serif JP',serif;font-size:19px;font-weight:600;letter-spacing:0.06em">翻訳繋ぎゲーム</span>
+        <span style="font-size:10.5px;letter-spacing:0.14em;color:#6b7280">TRANSLATION CHAIN</span>
+      </a>
+      <div style="flex:1"></div>
+      <nav style="display:flex;flex-wrap:wrap;align-items:stretch;gap:2px">
+        <a href="{{ hrefTop }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">トップ</a>
+        <a href="{{ hrefStudent }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;font-weight:500;color:#0053b0;border-bottom:3px solid #0053b0">あそびかた</a>
+        <a href="{{ hrefTeacher }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">先生へ</a>
+        <a href="{{ hrefAbout }}" style="display:flex;align-items:center;padding:14px 16px;font-size:14px;color:#23272e;border-bottom:3px solid transparent" style-hover="color:#0053b0;border-bottom-color:#a9c4e4">この活動について</a>
+        <a href="{{ hrefWorkspace }}" style="display:flex;align-items:center;margin:12px 0 12px 12px;padding:0 20px;font-size:14px;font-weight:500;color:#fff;background:#0053b0" style-hover="background:#003b7e;color:#fff">作業空間をひらく</a>
+      </nav>
+    </div>
+  </header>
+
+  <div style="background:#f4f6f9;border-bottom:1px solid #e3e7ee">
+    <div style="max-width:1120px;margin:0 auto;padding:14px 20px;font-size:12px;color:#6b7280">
+      <a href="{{ hrefTop }}" style="color:#6b7280" style-hover="color:#0053b0">トップ</a><span style="padding:0 9px">›</span><span>あそびかた</span>
+    </div>
+  </div>
+
+  <div style="position:relative;color:#fff;background-color:#0b2c55;background-image:url('./assets/map-07.jpeg');background-size:cover;background-position:center 30%">
+    <div style="position:absolute;inset:0;background:linear-gradient(100deg, rgba(4,26,54,0.92) 0%, rgba(4,26,54,0.78) 55%, rgba(4,26,54,0.62) 100%)"></div>
+    <div style="position:relative;max-width:1120px;margin:0 auto;padding:44px 20px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:11px;letter-spacing:0.2em;color:#9dc4f2">FOR STUDENTS</span>
+      <h1 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(23px,4vw,34px);font-weight:600;letter-spacing:0.05em;line-height:1.5">あそびかた</h1>
+      <p style="margin:0;font-size:15px;line-height:2;color:#dbe6f4;max-width:38em;text-wrap:pretty">英単語をひとつ置き、辞典を往復して語をつないでいく。地図をどこまで広げられるかを競います。</p>
+    </div>
+  </div>
+
+  <main style="max-width:1120px;margin:0 auto;padding:0 20px 92px;width:100%">
+
+    <section style="padding:56px 0 0">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:28px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">STEPS</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">4つの手順</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:26px;padding-top:34px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;background:#0053b0">1</span>
+            <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">英単語をひとつ置く</span>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">先生から配られた語か、自分で選んだ語。これが地図の真ん中になります。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;background:#0053b0">2</span>
+            <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">英和辞典で引いて、訳語を3つ以上置く</span>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">項目は最後まで読むこと。うしろのほうに意外な訳語があります。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;background:#0053b0">3</span>
+            <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">置いた日本語を選び、和英辞典で引く</span>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">語をクリックすると選べます。出てきた英単語を、また3つ以上置く。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;background:#0053b0">4</span>
+            <span style="font-size:16px;font-weight:500;letter-spacing:0.02em">2と3をくりかえす</span>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">もう地図にある語が出てきたら、新しく書かずにその語へ線をつなぐ。放射状だった枝が網になります。ここが一番おもしろいところです。</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:70px 0 0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px 44px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">RULES</span>
+          <h2 style="margin:0 0 18px;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">ルール</h2>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid #dfe3ea">
+            <li style="padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">日本語と英語だけを線でつなぐ。同じ言語同士はつながない</li>
+            <li style="padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">置く語は、辞典の項目にあったものだけ</li>
+            <li style="padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">翻訳アプリは使わない。辞典を読むことがこの活動の中身です</li>
+            <li style="padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea;text-wrap:pretty">訳語がわからない語に行きついたら、そこで止めていい</li>
+          </ul>
+        </div>
+        <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+          <div style="border:1px solid #dfe3ea;background:#f4f6f9"><img src="./assets/map-07.jpeg" alt="生徒が描いた翻訳地図" style="width:100%;height:auto"></div>
+          <figcaption style="font-size:12.5px;line-height:1.9;color:#6b7280;text-wrap:pretty">実際の地図。赤が日本語、黒が英語。線は必ず日本語と英語のあいだに引かれています。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section style="padding:70px 0 0">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:28px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">HOW TO USE</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">画面の使い方</h2>
+      </div>
+      <dl style="margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:0;padding-top:12px">
+        <dt style="padding:15px 20px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">クリック</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea">語を選ぶ。選んだ語から次の語が伸びます</dd>
+        <dt style="padding:15px 20px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">ドラッグ</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea">語を動かす。背景をつかむと地図全体を動かせます</dd>
+        <dt style="padding:15px 20px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">ホイール</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea">拡大と縮小</dd>
+        <dt style="padding:15px 20px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">カンマ</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea">区切って入力すると、複数まとめて置けます</dd>
+        <dt style="padding:15px 20px 15px 0;font-size:13px;font-weight:500;color:#0053b0;border-bottom:1px solid #dfe3ea;white-space:nowrap">書き出し</dt>
+        <dd style="margin:0;padding:15px 0;font-size:14.5px;line-height:1.9;border-bottom:1px solid #dfe3ea">PNGで画像に、JSONでデータに。閲覧リンクでも見せられます</dd>
+      </dl>
+      <p style="margin:26px 0 0;padding:18px 22px;font-size:14px;line-height:2;background:#f4f6f9;border-left:5px solid #0053b0;text-wrap:pretty">地図は使っている端末のブラウザに保存されます。別の端末で続けたいときは、JSONで書き出して持っていってください。</p>
+    </section>
+
+    <section style="padding:70px 0 0">
+      <div style="display:flex;flex-direction:column;gap:9px;padding-bottom:28px;border-bottom:2px solid #0053b0">
+        <span style="font-size:11px;letter-spacing:0.2em;color:#0053b0">FAQ</span>
+        <h2 style="margin:0;font-family:'Noto Serif JP',serif;font-size:clamp(19px,2.6vw,25px);font-weight:600;letter-spacing:0.04em">つまずいたら</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;padding-top:30px">
+        <div style="display:flex;flex-direction:column;gap:11px;padding:22px 24px;border:1px solid #dfe3ea">
+          <span style="font-size:15.5px;font-weight:500;color:#0053b0">地図が伸びない</span>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">最初の訳語だけ拾っていませんか。項目の後ろのほうまで読むと、思わぬ訳語が出てきます。</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px;padding:22px 24px;border:1px solid #dfe3ea">
+          <span style="font-size:15.5px;font-weight:500;color:#0053b0">同じ語に戻ってしまった</span>
+          <p style="margin:0;font-size:14px;line-height:2;color:#5b6472;text-wrap:pretty">失敗ではありません。線をつないでください。往復しても元の語に戻ってこないこと自体が、この活動の発見です。</p>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px;margin-top:70px;padding:34px;background:#f4f6f9;border-left:5px solid #0053b0">
+      <span style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;letter-spacing:0.04em">英単語をひとつ置くところから始まります</span>
+      <a href="{{ hrefWorkspace }}" style="flex:none;padding:15px 34px;font-size:15px;font-weight:500;color:#fff;background:#0053b0" style-hover="background:#003b7e;color:#fff">作業空間をひらく</a>
+    </div>
+
+  </main>
+
+  <footer style="margin-top:auto;background:#1b2330;color:#c3cad6">
+    <div style="max-width:1120px;margin:0 auto;padding:36px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px">
+      <span style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;letter-spacing:0.06em;color:#fff">翻訳繋ぎゲーム</span>
+      <div style="flex:1"></div>
+      <nav style="display:flex;flex-wrap:wrap;gap:18px;font-size:13px">
+        <a href="{{ hrefTop }}" style="color:#c3cad6" style-hover="color:#fff">トップ</a>
+        <a href="{{ hrefWorkspace }}" style="color:#c3cad6" style-hover="color:#fff">作業空間</a>
+        <a href="{{ hrefTeacher }}" style="color:#c3cad6" style-hover="color:#fff">先生へ</a>
+        <a href="{{ hrefAbout }}" style="color:#c3cad6" style-hover="color:#fff">この活動について</a>
+      </nav>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hrefTop&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./index.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefWorkspace&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./workspace.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefStudent&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./play.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefTeacher&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./teacher.html&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hrefAbout&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./about.html&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return {
+      hrefTop: p.hrefTop || "./index.html",
+      hrefWorkspace: p.hrefWorkspace || "./workspace.html",
+      hrefStudent: p.hrefStudent || "./play.html",
+      hrefTeacher: p.hrefTeacher || "./teacher.html",
+      hrefAbout: p.hrefAbout || "./about.html"
+    };
+  }
+}
+</script>
+</body>
+</html>
